@@ -1,0 +1,34 @@
+name: gocrontabworker
+log_lazy_time: 5
+
+log:
+  writers: stdout,file
+  logger_level: INFO
+  logger_file: /var/log/gocrontab/worker.log
+  log_format_text: true
+  rollingPolicy: daily
+  log_rotate_date: 1
+  log_rotate_size: 102400
+  log_backup_count: 20
+
+db:
+  name:
+  addr:
+  username:
+  password:
+  gormlog: false
+
+redis:
+  addr: 127.0.0.1:6379
+  password:
+  dial_timeout: 5000
+  read_timeout: 3000
+  write_timeout: 3000
+
+mongo:
+  addr: 127.0.0.1:27017
+  connect_timeout: 5000
+
+etcd:
+  endpoints: 127.0.0.1:2379
+  dial_timeout: 5000
