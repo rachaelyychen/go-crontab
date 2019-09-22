@@ -36,7 +36,7 @@ var (
 )
 
 type OptLock struct {
-	Key       string
+	Key        string
 	CancelFunc context.CancelFunc
 	LeaseId    clientv3.LeaseID
 }
@@ -98,7 +98,7 @@ func (etcdMgr *EtcdManager) GetOptLock(name string) (optLock *OptLock, err error
 	leaseId = leaseGrantResp.ID
 
 	optLock = &OptLock{
-		Key:       key,
+		Key:        key,
 		CancelFunc: cancelFunc,
 		LeaseId:    leaseId,
 	}
@@ -126,7 +126,7 @@ func (etcdMgr *EtcdManager) GetOptLock(name string) (optLock *OptLock, err error
 	// 拿着租约抢占key,如果能抢到就可以处理业务
 	txn = etcdMgr.Kv.Txn(context.TODO())
 	// if key not exist then create else failed
-	txn.If(clientv3.Compare(clientv3.CreateRevision(key), "=", 0, )).
+	txn.If(clientv3.Compare(clientv3.CreateRevision(key), "=", 0)).
 		Then(clientv3.OpPut(key, "", clientv3.WithLease(leaseId))).
 		Else(clientv3.OpGet(key))
 	if txnResp, err = txn.Commit(); err != nil {

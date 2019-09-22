@@ -151,7 +151,7 @@ func ValueToString(v reflect.Value) (string, error) {
 }
 
 func AssembleString(prefix *string, sep string, label *string) string {
-	if 	strings.Trim(*prefix, " ") == "" {
+	if strings.Trim(*prefix, " ") == "" {
 		return *label
 	} else {
 		return *prefix + sep + *label
@@ -160,10 +160,13 @@ func AssembleString(prefix *string, sep string, label *string) string {
 
 const SysTimeform = "2006-01-02 15:04:05"
 const SysTimeformShort = "2006-01-02"
+
 // 中国时区
 var SysTimeLocation, _ = time.LoadLocation("Asia/Chongqing")
+
 // ObjSalesign 签名密钥
 var SignSecret = []byte("0123456789abcdef")
+
 // cookie中的加密验证密钥
 const CookieSecret = "helloinit"
 
@@ -375,5 +378,3 @@ func GetString(str interface{}, d string) string {
 	}
 	return fmt.Sprintf("%s", str)
 }
-
-

@@ -25,8 +25,8 @@ type Response struct {
 
 type ReqWithFilter struct {
 	Name     string `json:"name"`
-	Page     int64    `json:"page"`
-	PageSize int64    `json:"page_size"`
+	Page     int64  `json:"page"`
+	PageSize int64  `json:"page_size"`
 	Sort     string `json:"sort"`
 }
 

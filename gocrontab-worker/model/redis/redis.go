@@ -21,8 +21,8 @@ const (
 
 var (
 	rdsLogStr = fmt.Sprintf(utils.LOGSTR, "crontab-worker", "redis")
-	client       *redis.Client
-	config *redisConfig
+	client    *redis.Client
+	config    *redisConfig
 	RedisMgr  *RedisManager
 )
 

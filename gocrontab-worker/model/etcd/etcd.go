@@ -170,7 +170,7 @@ func (etcdMgr *EtcdManager) GetOptLock(ctx context.Context, key string, leaseTim
 	// 拿着租约抢占key,如果能抢到就可以处理业务
 	txn = etcdMgr.Kv.Txn(cancelCtx)
 	// if key not exist then create else failed
-	txn.If(clientv3.Compare(clientv3.CreateRevision(key), "=", 0, )).
+	txn.If(clientv3.Compare(clientv3.CreateRevision(key), "=", 0)).
 		Then(clientv3.OpPut(key, "", clientv3.WithLease(leaseId))).
 		Else(clientv3.OpGet(key))
 	if txnResp, err = txn.Commit(); err != nil {

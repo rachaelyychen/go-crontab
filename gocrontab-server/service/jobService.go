@@ -33,7 +33,7 @@ func AddJob(job *model.Job) (oldJob *model.Job, err error) {
 	var (
 		jobKey   string
 		jobValue []byte
-		putResp   *clientv3.PutResponse
+		putResp  *clientv3.PutResponse
 	)
 	jobKey = utils.JOB_SAVE_PATH + job.Name
 	if jobValue, err = json.Marshal(job); err != nil {
@@ -64,8 +64,7 @@ func DeleteJob(name string) (oldJob *model.Job, err error) {
 	)
 	jobKey = utils.JOB_SAVE_PATH + name
 	// delete from etcd
-	if deleteResp, err = etcd.EtcdMgr.Kv.Delete(context.TODO(), jobKey, clientv3.WithPrevKV());
-		err != nil {
+	if deleteResp, err = etcd.EtcdMgr.Kv.Delete(context.TODO(), jobKey, clientv3.WithPrevKV()); err != nil {
 		log.Error(jobLogStr, err)
 		return
 	}
@@ -105,7 +104,7 @@ func GetJobs() (jobList []*model.Job, err error) {
 
 func KillJob(name string) (err error) {
 	var (
-		killJobKey string
+		killJobKey     string
 		leaseGrantResp *clientv3.LeaseGrantResponse
 	)
 	killJobKey = utils.JOB_KILL_PATH + name
@@ -115,8 +114,7 @@ func KillJob(name string) (err error) {
 		log.Error(jobLogStr, err)
 		return
 	}
-	if _, err = etcd.EtcdMgr.Kv.Put(context.TODO(), killJobKey, "", clientv3.WithLease(leaseGrantResp.ID));
-		err != nil {
+	if _, err = etcd.EtcdMgr.Kv.Put(context.TODO(), killJobKey, "", clientv3.WithLease(leaseGrantResp.ID)); err != nil {
 		log.Error(jobLogStr, err)
 		return
 	}
@@ -126,18 +124,18 @@ func KillJob(name string) (err error) {
 func GetJobLogs(name string, page int64, pageSize int64, sortStr string) ([]*model.JobLog, error) {
 	var (
 		filter *bson.M
-		opts *options.FindOptions
-		skip int64
-		sort map[string]interface{}
+		opts   *options.FindOptions
+		skip   int64
+		sort   map[string]interface{}
 	)
-	filter = &bson.M{"job_name":name}
-	skip = (page-1) * pageSize
+	filter = &bson.M{"job_name": name}
+	skip = (page - 1) * pageSize
 	sort = make(map[string]interface{})
 	sort[sortStr] = -1
 
 	opts = &options.FindOptions{
-		Skip: &skip,
-		Sort: &sort,
+		Skip:  &skip,
+		Sort:  &sort,
 		Limit: &pageSize,
 	}
 	return model.GetLogBatch(filter, opts), nil

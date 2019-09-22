@@ -30,7 +30,7 @@ var (
 	jobLogChan       chan *JobLog
 	jobLogBatch      []interface{}
 	pushTimer        *time.Timer // 延迟提交的定时器
-	log_lazy_time     = viper.GetInt("log_lazy_time")
+	log_lazy_time    = viper.GetInt("log_lazy_time")
 )
 
 // 日志协程
@@ -102,8 +102,7 @@ func GetLogBatch(filter *bson.M, opts *options.FindOptions) (batch []*JobLog) {
 	)
 	batch = make([]*JobLog, 0, utils.CAP)
 
-	if cur, err = jobLogCollection.Find(context.TODO(), *filter, opts);
-		err != nil {
+	if cur, err = jobLogCollection.Find(context.TODO(), *filter, opts); err != nil {
 		log.Error(jobServiceStr, err)
 	}
 	defer cur.Close(context.TODO())

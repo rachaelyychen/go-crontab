@@ -24,10 +24,10 @@ var (
 
 // 调度器
 type Scheduler struct {
-	JobEventChan  chan *JobEvent  // job event queue 任务事件队列
-	JobResultChan chan *JobResult // job result queue 任务结果队列
-	JobPlanTable map[string]*JobPlan  // job plan queue 任务计划表
-	JobExecTable map[string]*JobState // job state queue 任务执行表
+	JobEventChan  chan *JobEvent       // job event queue 任务事件队列
+	JobResultChan chan *JobResult      // job result queue 任务结果队列
+	JobPlanTable  map[string]*JobPlan  // job plan queue 任务计划表
+	JobExecTable  map[string]*JobState // job state queue 任务执行表
 }
 
 func StartScheduler() (err error) {
@@ -78,10 +78,10 @@ func (sched *Scheduler) scheduleLoop() {
 
 	for {
 		select {
-		case jobEvent = <-sched.JobEventChan:	
+		case jobEvent = <-sched.JobEventChan:
 			// 维护任务事件队列
 			sched.handlerJobEvent(jobEvent)
-		case <-timer.C:	// 定时器提醒有任务到期了
+		case <-timer.C: // 定时器提醒有任务到期了
 		case jobResult = <-sched.JobResultChan:
 			sched.handlerJobResult(jobResult)
 			continue
@@ -184,7 +184,7 @@ func (sched *Scheduler) reStateJob() (afterTime time.Duration) {
 	return
 }
 
-func (sched *Scheduler) doJob(jobPlan *JobPlan) () {
+func (sched *Scheduler) doJob(jobPlan *JobPlan) {
 	// 例如设置一个任务每秒调度一次,该任务每次执行需要1分钟
 	// 在执行过程中不会因为调度而重新执行,因此需要记录任务的状态,防止并发
 	var (

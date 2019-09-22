@@ -13,6 +13,6 @@ import "errors"
 **/
 
 var (
-	LockBusyErr = errors.New("Lock already in use.")
+	LockBusyErr       = errors.New("Lock already in use.")
 	RecordNotFoundErr = errors.New("Record not found.")
 )

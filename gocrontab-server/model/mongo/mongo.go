@@ -30,8 +30,8 @@ var (
 	mongoLogStr = fmt.Sprintf(utils.LOGSTR, "crontab-master", "mongo")
 	client      *mongo.Client
 	config      *mongoConfig
-	ctx        context.Context
-	opts       *options.ClientOptions
+	ctx         context.Context
+	opts        *options.ClientOptions
 	err         error
 	MongoMgr    *MongoManager
 )
@@ -42,7 +42,7 @@ type mongoConfig struct {
 }
 
 type MongoManager struct {
-	Client     *mongo.Client
+	Client *mongo.Client
 }
 
 func Init() {

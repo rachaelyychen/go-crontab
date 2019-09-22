@@ -121,8 +121,7 @@ func (logMgr *LogMgr) SelectMongo() (err error) {
 
 	// -----多个查询-----
 	// 查找age>=25的 只显示3个 从大到小排序
-	if cur, err = logMgr.collection.Find(ctx, bson.M{"age": bson.M{"$gte": 25}}, options.Find().SetLimit(3), options.Find().SetSort(bson.M{"age": -1}));
-		err != nil {
+	if cur, err = logMgr.collection.Find(ctx, bson.M{"age": bson.M{"$gte": 25}}, options.Find().SetLimit(3), options.Find().SetSort(bson.M{"age": -1})); err != nil {
 		fmt.Println(err)
 		return
 	}

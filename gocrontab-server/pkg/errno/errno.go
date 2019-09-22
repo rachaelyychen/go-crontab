@@ -60,7 +60,7 @@ func DecodeErr(err error) (int, string) {
 	return InternalServerError.Code, err.Error()
 }
 
-func LogErr(logErr string, err *error, code int) (*Errno) {
+func LogErr(logErr string, err *error, code int) *Errno {
 	_, message := DecodeErr(*err)
 	log.Error(logErr, *err)
 	return &Errno{

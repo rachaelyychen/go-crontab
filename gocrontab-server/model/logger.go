@@ -22,14 +22,14 @@ import (
 **/
 
 var (
-	loggerLogStr    = fmt.Sprintf(utils.LOGSTR, "crontab-master", "logger")
+	loggerLogStr = fmt.Sprintf(utils.LOGSTR, "crontab-master", "logger")
 )
 
 func GetLogBatch(filter *bson.M, opts *options.FindOptions) (batch []*JobLog) {
 	var (
-		cur    *mongo.Cursor
-		jobLog *JobLog
-		err    error
+		cur              *mongo.Cursor
+		jobLog           *JobLog
+		err              error
 		jobLogCollection = mongo2.MongoMgr.Client.Database(utils.MON_DATABASE_CRON).Collection(utils.MON_COLLECTION_LOG)
 	)
 	batch = make([]*JobLog, 0, utils.CAP)
@@ -46,4 +46,3 @@ func GetLogBatch(filter *bson.M, opts *options.FindOptions) (batch []*JobLog) {
 	}
 	return
 }
-

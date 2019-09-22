@@ -29,7 +29,7 @@ func Load(g *gin.Engine) *gin.Engine {
 	m := g.Group("/crontab/job")
 	m.POST("", handler.CreateJob)
 	m.POST("/query", handler.GetJobs)
-	m.DELETE("", handler.DeleteJob)    // form data
+	m.DELETE("", handler.DeleteJob) // form data
 	m.POST("/killer", handler.KillJob)
 	m.POST("/log/query", handler.GetJobLogs)
 

@@ -43,8 +43,7 @@ func WatchJobs() (err error) {
 	)
 
 	// 1.get到/cron/job/目录下的所有任务
-	if getResp, err = etcd.EtcdMgr.Kv.Get(context.TODO(), utils.JOB_SAVE_PATH, clientv3.WithPrefix());
-		err != nil {
+	if getResp, err = etcd.EtcdMgr.Kv.Get(context.TODO(), utils.JOB_SAVE_PATH, clientv3.WithPrefix()); err != nil {
 		log.Error(jobServiceStr, err)
 		return
 	}

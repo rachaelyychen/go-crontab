@@ -80,7 +80,7 @@ func TestCron(t *testing.T) {
 		nextTime time.Time
 	}
 	var (
-		job *CronJob
+		job           *CronJob
 		scheduleTable map[string]*CronJob
 	)
 
@@ -120,25 +120,25 @@ func TestCron(t *testing.T) {
 
 func TestETCD(t *testing.T) {
 	var (
-		config clientv3.Config
-		client *clientv3.Client
-		lease clientv3.Lease
-		leaseGrantResp *clientv3.LeaseGrantResponse
-		leaseId clientv3.LeaseID
-		putResp *clientv3.PutResponse
-		getResp *clientv3.GetResponse
-		keepRespChan <-chan *clientv3.LeaseKeepAliveResponse
-		keepResp *clientv3.LeaseKeepAliveResponse
-		kv clientv3.KV
+		config             clientv3.Config
+		client             *clientv3.Client
+		lease              clientv3.Lease
+		leaseGrantResp     *clientv3.LeaseGrantResponse
+		leaseId            clientv3.LeaseID
+		putResp            *clientv3.PutResponse
+		getResp            *clientv3.GetResponse
+		keepRespChan       <-chan *clientv3.LeaseKeepAliveResponse
+		keepResp           *clientv3.LeaseKeepAliveResponse
+		kv                 clientv3.KV
 		watchStartRevision int64
-		watcher clientv3.Watcher
-		watchRespChan <-chan clientv3.WatchResponse
-		err error
+		watcher            clientv3.Watcher
+		watchRespChan      <-chan clientv3.WatchResponse
+		err                error
 	)
 
 	config = clientv3.Config{
-		Endpoints:            []string{"localhost:2379"},
-		DialTimeout:          5 * time.Second,
+		Endpoints:   []string{"localhost:2379"},
+		DialTimeout: 5 * time.Second,
 	}
 	if client, err = clientv3.New(config); err != nil {
 		t.Fatal(err)
@@ -155,7 +155,7 @@ func TestETCD(t *testing.T) {
 	go func() {
 		for {
 			select {
-			case keepResp = <- keepRespChan:
+			case keepResp = <-keepRespChan:
 				if keepRespChan == nil {
 					goto END
 				} else {
@@ -232,7 +232,7 @@ func TestETCD(t *testing.T) {
 	var txnResp *clientv3.TxnResponse
 	txn := kv.Txn(context.TODO())
 	// if key not exist then create else failed
-	txn.If(clientv3.Compare(clientv3.CreateRevision("/cron/lock/job1"), "=", 0, )).
+	txn.If(clientv3.Compare(clientv3.CreateRevision("/cron/lock/job1"), "=", 0)).
 		Then(clientv3.OpPut("/cron/lock/job1", "job1", clientv3.WithLease(leaseId))).
 		Else(clientv3.OpGet("/cron/lock/job1"))
 	if txnResp, err = txn.Commit(); err != nil {

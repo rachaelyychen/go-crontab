@@ -22,7 +22,6 @@ import (
 **/
 
 type Executor struct {
-
 }
 
 type JobLock struct {
@@ -55,7 +54,7 @@ func (exec *Executor) ExecuteJob(jobState *JobState) {
 		// 上锁之前随机睡眠0～1秒 减少多个机器时钟不完全同步造成的分布式锁倾斜
 		time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
 		// 抢占锁,锁租约时间5秒
-		jobLock, err = etcd.EtcdMgr.GetOptLock(context.TODO(), utils.JOB_LOCK_PATH + jobState.EJob.Name, 5)
+		jobLock, err = etcd.EtcdMgr.GetOptLock(context.TODO(), utils.JOB_LOCK_PATH+jobState.EJob.Name, 5)
 		// 结束释放锁
 		if jobLock != nil {
 			defer etcd.EtcdMgr.ReleaseOptLock(jobLock)
